@@ -6,6 +6,8 @@ import peaksoft.project_rest_api.peaksoft.dto.student.StudentRequestDto;
 import peaksoft.project_rest_api.peaksoft.dto.student.StudentResponseDto;
 import peaksoft.project_rest_api.peaksoft.exception.response.Response;
 import peaksoft.project_rest_api.peaksoft.sarvice.StudentService;
+
+import javax.annotation.security.PermitAll;
 import java.util.List;
 
 @RestController
@@ -20,7 +22,8 @@ public class StudentController {
         return studentService.getAllStudent();
     }
 
-    @PostMapping("/save")
+    @PostMapping("/register")
+    @PermitAll
     public Response saveStudent(@RequestBody StudentRequestDto student) {
         return studentService.saveStudent(student);
     }

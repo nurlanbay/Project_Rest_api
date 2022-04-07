@@ -4,16 +4,20 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import peaksoft.project_rest_api.peaksoft.dto.student.StudentRequestDto;
 import peaksoft.project_rest_api.peaksoft.dto.student.StudentResponseDto;
-import peaksoft.project_rest_api.peaksoft.entity.Group;
-import peaksoft.project_rest_api.peaksoft.entity.Student;
+import peaksoft.project_rest_api.peaksoft.entity.entities.AuthenticationInfo;
+import peaksoft.project_rest_api.peaksoft.entity.entities.Group;
+import peaksoft.project_rest_api.peaksoft.entity.entities.Student;
+import peaksoft.project_rest_api.peaksoft.entity.enums.Role;
 import peaksoft.project_rest_api.peaksoft.exception.BadRequestException;
 import peaksoft.project_rest_api.peaksoft.exception.NotFoundException;
 import peaksoft.project_rest_api.peaksoft.exception.StudentNotFoundException;
 import peaksoft.project_rest_api.peaksoft.exception.response.Response;
+import peaksoft.project_rest_api.peaksoft.repository.AuthInfoRepo;
 import peaksoft.project_rest_api.peaksoft.repository.GroupRepo;
 import peaksoft.project_rest_api.peaksoft.repository.StudentRepo;
 import peaksoft.project_rest_api.peaksoft.sarvice.StudentService;
@@ -30,26 +34,45 @@ public class StudentServiceImpl implements StudentService {
     private final StudentRepo studentRepo;
     private final ModelMapper modelMapper;
     private final GroupRepo groupRepo;
+    private final PasswordEncoder passwordEncoder;
+    private final AuthInfoRepo authInfoRepo;
 
     @Override
     public Response saveStudent(StudentRequestDto newStudent) {
         String email = newStudent.getEmail();
 
         checkByEmail(email);
-        Student student1 = modelMapper.map(newStudent, Student.class);
+
+        Student student = modelMapper.map(newStudent, Student.class);
+
+        AuthenticationInfo authInfo = new AuthenticationInfo(
+                newStudent.getEmail(),
+                passwordEncoder.encode(newStudent.getPassword()),
+                Role.STUDENT
+        );
+
+        AuthenticationInfo save1 = authInfoRepo.save(authInfo);
+
+        student.setAuthenticationInfo(save1);
+
         Group group = groupRepo.findById(newStudent.getGroupId())
                 .orElseThrow(() -> new NotFoundException(
                         String.format("company with id = %d does not exists", newStudent.getGroupId())
                 ));
 
-        student1.setGroup(group);
-        Student save = studentRepo.save(student1);
+        log.info("student = {}", student);
 
+        Student save = studentRepo.save(student);
+
+        student.setGroup(group);
 
         log.info("student with email = {} has successfully saved to database", save.getEmail());
-//     String massage = String.format("Student with email %s has successfully save to database");
+
+        String massage = String.format("Student with email %s has successfully save to database", email);
+
         return Response.builder()
                 .httpStatus(HttpStatus.CREATED)
+                .massage(massage)
                 .build();
     }
 
@@ -67,12 +90,12 @@ public class StudentServiceImpl implements StudentService {
     public StudentResponseDto findByStudentId(Long id) {
         Student student = studentRepo.findById(id)
                 .orElseThrow(() -> {
-                    log.info("Student with id {} does not exists",  id);
+                    log.info("Student with id {} does not exists", id);
                     throw new StudentNotFoundException(String.format(
-                            "Student with id %s does not exists",  id));
+                            "Student with id %s does not exists", id));
                 });
         log.info("found student with id" + id);
-        return modelMapper.map(student,StudentResponseDto.class);
+        return modelMapper.map(student, StudentResponseDto.class);
     }
 
     @Override

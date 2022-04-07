@@ -1,4 +1,4 @@
-package peaksoft.project_rest_api.peaksoft.entity;
+package peaksoft.project_rest_api.peaksoft.entity.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
@@ -25,7 +25,7 @@ public class Course {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @Column(name = "course_name", nullable = false)
+    @Column(name = "course_name")
     String courseName;
 
     LocalDate finishedDate;

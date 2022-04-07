@@ -2,7 +2,7 @@ package peaksoft.project_rest_api.peaksoft.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import peaksoft.project_rest_api.peaksoft.entity.Group;
+import peaksoft.project_rest_api.peaksoft.entity.entities.Group;
 
 public interface GroupRepo extends JpaRepository<Group,Long> {
 

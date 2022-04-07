@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import peaksoft.project_rest_api.peaksoft.dto.company.CompanyRequestDto;
 import peaksoft.project_rest_api.peaksoft.dto.company.CompanyResponseDto;
-import peaksoft.project_rest_api.peaksoft.entity.Company;
+import peaksoft.project_rest_api.peaksoft.entity.entities.Company;
 import peaksoft.project_rest_api.peaksoft.exception.BadRequestException;
 import peaksoft.project_rest_api.peaksoft.exception.CompanyNotFoundException;
 import peaksoft.project_rest_api.peaksoft.repository.CompanyRepo;

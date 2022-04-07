@@ -9,6 +9,7 @@ import peaksoft.project_rest_api.peaksoft.exception.response.Response;
 import peaksoft.project_rest_api.peaksoft.sarvice.CourseService;
 
 
+import javax.annotation.security.PermitAll;
 import java.util.List;
 
 
@@ -25,6 +26,7 @@ public class CourseController {
     }
 
     @PostMapping("/save")
+    @PermitAll
     public Response saveCourse(@RequestBody CourseRequestDto newCourse) {
         return courseService.saveCourse(newCourse);
     }

@@ -1,4 +1,4 @@
-package peaksoft.project_rest_api.peaksoft.entity;
+package peaksoft.project_rest_api.peaksoft.entity.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;

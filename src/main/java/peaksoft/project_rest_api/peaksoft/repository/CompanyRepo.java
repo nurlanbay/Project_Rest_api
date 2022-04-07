@@ -3,7 +3,7 @@ package peaksoft.project_rest_api.peaksoft.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import peaksoft.project_rest_api.peaksoft.entity.Company;
+import peaksoft.project_rest_api.peaksoft.entity.entities.Company;
 
 
 public interface CompanyRepo extends JpaRepository<Company, Long> {

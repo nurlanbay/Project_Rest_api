@@ -1,4 +1,4 @@
-package peaksoft.project_rest_api.peaksoft.entity;
+package peaksoft.project_rest_api.peaksoft.entity.entities;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -9,7 +9,6 @@ import java.util.Set;
 import static javax.persistence.CascadeType.*;
 
 @Entity
-@Table
 @Getter
 @Setter
 @ToString

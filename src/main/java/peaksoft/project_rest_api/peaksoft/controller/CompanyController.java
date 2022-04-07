@@ -1,11 +1,14 @@
 package peaksoft.project_rest_api.peaksoft.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import peaksoft.project_rest_api.peaksoft.dto.company.CompanyRequestDto;
 import peaksoft.project_rest_api.peaksoft.dto.company.CompanyResponseDto;
 import peaksoft.project_rest_api.peaksoft.exception.response.Response;
 import peaksoft.project_rest_api.peaksoft.sarvice.CompanyService;
+
 import java.util.List;
 
 @RestController
@@ -22,6 +25,7 @@ public class CompanyController {
     }
 
     @PostMapping("/save")
+    @PreAuthorize("permitAll()")
     public Response saveCompany(@RequestBody CompanyRequestDto company) {
         return companyService.saveCompany(company);
     }

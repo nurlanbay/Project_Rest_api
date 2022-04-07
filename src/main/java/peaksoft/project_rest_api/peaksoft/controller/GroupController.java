@@ -6,6 +6,8 @@ import peaksoft.project_rest_api.peaksoft.dto.group.GroupRequestDto;
 import peaksoft.project_rest_api.peaksoft.dto.group.GroupResponseDto;
 import peaksoft.project_rest_api.peaksoft.exception.response.Response;
 import peaksoft.project_rest_api.peaksoft.sarvice.GroupService;
+
+import javax.annotation.security.PermitAll;
 import java.util.List;
 
 @RestController
@@ -21,6 +23,7 @@ public class GroupController {
     }
 
     @PostMapping("/save")
+    @PermitAll
     public Response saveGroup(@RequestBody GroupRequestDto group) {
         return groupService.saveGroup(group);
     }
